@@ -156,6 +156,8 @@ umd_courses |>
 
 Compared to the previous codeblock, what has changed and how did that affect the result? **Answer**
 
+**It is now sorted in descending order.**
+
 ### Task 11: Grouping by multiple columns
 
 **Task** Run the following codeblock.
@@ -173,6 +175,8 @@ Compared to the previous codeblock, how did the output change and what in the co
 
 **Answer**
 
+**Every term is now split by department name.**
+
 ### Task 12: Other summary functions
 
 **Task** Run the following codeblock:
@@ -188,6 +192,8 @@ umd_courses |>
 ```
 
 Compared to the previous codeblock, what has changed and how did that affect the result? **Answer**
+
+**The list is now sorted in descending number of total seats per term.**
 
 ### Task 13: different kinds of summarizations
 
@@ -206,6 +212,8 @@ umd_courses |>
 ```
 
 Compared to the previous codeblock, what has changed and how did that affect the result? What do the top terms have in common? **Answer**
+
+**We now have averages for how many seats per term via median and mean. The top terms almost exclusively take place in the Fall or Spring terms.**
 
 ### Task 14: more aggregations
 
@@ -229,14 +237,16 @@ Compared to the previous codeblock, what has changed and how did that affect the
 
 **Answer**
 
+**The data is now sorted by number of seats per department.**
+
 ### Task 12: Questions
 
 No code here; I want you to provide three questions that this data suggests to you. What would you like to ask it?
 
 **Answer**
 
-1.  
+1.  What courses have been discontinued? Is it possible to see that reflected in the data?
 
-2.  
+2.  What department has the most classes offered in the summer?
 
-3.  
+3.  What department has the most seats on average?
