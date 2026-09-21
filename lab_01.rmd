@@ -74,11 +74,12 @@ The greatest number of times any course has been offered is 29, which are course
 
 ```{r}
 umd_courses |>
-  group_by(instructors) |>
+  group_by(instructors, department) |>
   summarise(
     count_courses = n()
   ) |>
-  arrange(desc(count_courses))
+  arrange(desc(count_courses)) |>
+  drop_na()
 ```
 
 Of the data we have available, professor Jason Kuo has taught the most courses.
