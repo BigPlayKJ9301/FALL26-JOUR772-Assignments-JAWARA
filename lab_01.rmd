@@ -42,23 +42,62 @@ umd_courses <- read_rds("lab_01.rds")
 **Q1** Which department has the highest mean (average) number of seats for its classes? You need to show the department with the highest average first. Which one is the most surprising/interesting to you? **A1**
 
 ```{r}
+umd_courses|> 
+  group_by(department) |>
+  summarise(
+    mean_seats = mean(seats)
+  ) |>
+  arrange(desc(mean_seats))
+
+
 ```
 
-**Q2** Find out the greatest number of times any individual class has been offered in our dataset. Your code must show the greatest number of classes first.
-**A2**
+Computer, Math and Sciences has the highest by a significant margin. I would be more interested to see how many courses are in this department. Is it relatively fewer than most? Are there any courses in particular that act as outliers skewing this data?
+
+**Q2** Find out the greatest number of times any individual class has been offered in our dataset. Your code must show the greatest number of classes first. **A2**
 
 ```{r}
+umd_courses |>
+  group_by(id) |>
+  summarise(
+    count_offered = n()
+  ) |>
+  arrange(desc(count_offered))
+
+
+      
 ```
 
-**Q3** Count the number of courses for each instructor and department. Which instructor has taught the most?
-**A3**
+The greatest number of times any course has been offered is 29, which are courses that have been offered in every semester covered by this data set.
+
+**Q3** Count the number of courses for each instructor and department. Which instructor has taught the most? **A3**
 
 ```{r}
+umd_courses |>
+  group_by(instructors) |>
+  summarise(
+    count_courses = n()
+  ) |>
+  arrange(desc(count_courses))
 ```
+
+Of the data we have available, professor Jason Kuo has taught the most courses.
 
 **Q4** Given the results for Q3, what would have made it easier to find the answer? You don't have to know *how* to accomplish this; I want you to describe in words what would make the answer easier to see. How confident are you that the answer you got is the right one, and why? **A4**
+
+I am confident that Kuo is the right answer because the list is ordered from highest number of occurrences to lowest. It would have been easier if instead of asking R to display every data entry and sort it, if we could just have it display the entry with the highest number of occurrences and omit everything else.
 
 **Q5** Take one of the questions you listed in the final question of the pre_lab and try to answer it here in code. If you don't know how to fully answer it, write what code you can and describe in words what else you would need to do. If you got an answer, is it interesting? **A5**
 
 ```{r}
+umd_courses |>
+  group_by(id) |>
+  summarise(
+    count_offered = n() |>
+    max(count_offered)28
+  )
 ```
+
+Question: What courses have been discontinued? Is it possible to see that reflected in the data?
+
+What I'm attempting to do here is group the data by class ID while only allowing for a maximum of 28 entries, which would indicate courses that haven't been offered in every term. A better way to do this would be if we could tell R to show us the highest number associated for each class (for example, if we could create a table showing JOUR772 with the most recent term being 202608 to indicate that is the most recent term it was offered).
