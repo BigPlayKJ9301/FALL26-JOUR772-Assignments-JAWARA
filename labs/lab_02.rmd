@@ -43,11 +43,11 @@ climate_courses <- umd_courses |>
 
 ```
 
-32 departments offered such courses, with Atmospheric & Oceanic Sciences leading the way with 93.
+**32 departments offered such courses, with Atmospheric & Oceanic Sciences leading the way with 93.**
 
 **Q2.** Of the departments listed in A1, which one is the most interesting to you, and why?
 
-I find anthropology in 2nd place to be most interesting. I took an anthropology course in undergrad and understood it to be the study of culture around the world, and I'm interested in how climate plays a role in that department.
+**I find anthropology in 2nd place to be most interesting. I took an anthropology course in undergrad and understood it to be the study of culture around the world, and I'm interested in how climate plays a role in that department.**
 
 **Q3** Which departments offered the most courses in the Fall 2024 term? And which departments in that term have at least one syllabus posted? Answer both of those questions and then compare the top five departments - how are they different?
 
@@ -60,7 +60,7 @@ fall_24 <- umd_courses |>
   arrange(desc(department))
 ```
 
-Business and Management offered the most courses in Fall 2024, with 134 departments having at least one syllabus posted. The top-5 seems to cover a wide array of subjects.
+**Business and Management offered the most courses in Fall 2024, with 134 departments having at least one syllabus posted. The top-5 seems to cover a wide array of subjects.**
 
 **Q4.** Using the Maryland campaign expenses data, change the datatype of the expenditure_date column so that it is a date and not a chr, saving the result as a new dataframe. Then create a new column for the month based on expenditure_date. Then write code that shows total amount spent each month by Wes Moore's committee (you'll need to search the data to find the exact name, and we're not looking in payee_name). Write a sentence describing the pattern of spending over time. **A4.**
 
@@ -74,7 +74,7 @@ wes_moore <- maryland_expenses |>
   summarise(total_donations = sum(amount))
 ```
 
-It appears that spending by month is modest throughout the year, but ramps up in June as the election gets closer.
+**It appears that spending by month is modest throughout the year, but ramps up in June as the election gets closer.**
 
 **Q5.** Using case_when(), create a column in the Maryland expenses data called `spending_location` indicating whether each record spent money in Maryland or outside Maryland. For records that are in Maryland, make the new column's value "In-state" and for all others, make it "Out of state". Then write code that shows the total amount of money spent in each category and describe the results. You can do this in one statement or break it up into two statements (saving the new column to your dataframe). **A5**
 
@@ -97,7 +97,7 @@ maryland_expenses |>
   arrange(desc(total_amount))
 ```
 
-Significant contributions came via Out of State, but the majority came from In-state donations.
+**Significant contributions came via Out of State, but the majority came from In-state donations.**
 
 **Q6.** Choose your own adventure: using either the UMD courses or campaign expenses data, ask and answer a question that is different than the previous ones. You can use one of the ones you provided in the pre_lab. **A6.**
 
