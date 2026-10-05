@@ -43,6 +43,8 @@ payments <- read_csv("data/State_of_Maryland_Payments_Data__FY2008_to_FY2024_202
 
 **Task** Run the following codeblock to reload the data, using every row to set the data types. Does it show any parsing errors when you run? Answer below **Answer**
 
+**Doesn't appear to be any parsing errors when I run this code.**
+
 ```{r}
 payments <- read_csv("data/State_of_Maryland_Payments_Data__FY2008_to_FY2024_20250115.csv", guess_max=369008)
 ```
@@ -50,6 +52,8 @@ payments <- read_csv("data/State_of_Maryland_Payments_Data__FY2008_to_FY2024_202
 ### Task 4: Examine the data with glimpse
 
 **Task** Run the following codeblock to glimpse the data. What data type is the "Vendor Name" field? What data type is the "Amount" field? What data type is the "Date" column? Answer below. **Answer**
+
+**Vendor Name is a \<chr\> data type, as is Date. Amount is \<dbl\>.**
 
 ```{r}
 glimpse(payments)
@@ -64,6 +68,8 @@ The second smell we can find in code is **wrong spatial data**. Spatial data mea
 We can check to see if any of the zip codes are less than five characters by using [a function called `str_length`](https://stringr.tidyverse.org/reference/str_length.html) inside a filter.
 
 **Task** Run the following codeblock to group by the vendor's zip code and show any that are less than five characters in length. How many zip codes do not have five characters? What do you think explains those records? **Answer**
+
+553 zip codes do not have 5 characters. I would guess that the majority of these are zip codes that start with a zero.
 
 ```{r}
 payments |>
@@ -140,6 +146,8 @@ Let's get cleaning. Our goal will be to build up one block of code that does all
 
 **Task** Run the following codeblock to use the `clean_names()` function from janitor to standardize column names. How does it change the headers? Answer below. **Answer**
 
+The headers are more streamlined
+
 ```{r}
 # cleaning function
 cleaned_md_grants_loans <- md_grants_loans |>
@@ -169,6 +177,8 @@ Right now the `source`, `grantee` and `description` columns have inconsistent ca
 
 **Task** Run the following codeblock to use str_to_upper() to make the source, grantee and description columns upper-cased. Describe what each line is doing. **Answer**
 
+Each line is filtering out data
+
 ```{r}
 # cleaning function
 cleaned_md_grants_loans <- md_grants_loans |>
@@ -182,7 +192,7 @@ cleaned_md_grants_loans
 
 ### Task 6: Check for duplicate rows
 
-**Task** Run the following codeblock to check for duplicate rows using get_dupes(). How many duplicates are possible? **Answer**
+**Task** Run the following codeblock to check for duplicate rows using get_dupes(). How many duplicates are possible? **Answer** 58
 
 ```{r}
 cleaned_md_grants_loans |>
@@ -191,7 +201,7 @@ cleaned_md_grants_loans |>
 
 ### Task 7: Get rid of duplicate rows
 
-**Task** Run the following codeblock to use distinct() to get rid of duplicate rows. How many rows does the new dataframe have? Answer below. **Answer**
+**Task** Run the following codeblock to use distinct() to get rid of duplicate rows. How many rows does the new dataframe have? Answer below. **Answer 19,453**
 
 ```{r}
 # cleaning function
@@ -214,6 +224,8 @@ Let's start by cleaning up the zip field. Remember, some of the rows had a five-
 We're going to write code that tells R to make a new column for our zips, keeping the first five digits on the left, and get rid of anything after that by using `mutate()` in concert with `str_sub()`, from the `stringr` package.
 
 **Task** Run the following codeblock to use str_sub() to convert the ZIP codes that have nine digits to five digits, creating a new column. Look at the difference in the result - what changed? **Answer**
+
+Nine-digit ZIP codes are now recognized.
 
 ```{r}
 # cleaning function
@@ -257,5 +269,14 @@ cleaned_md_grants_loans
 **Task** Write and run code to answer our original question: which zip code has gotten the most amount of money from the Maryland Tourism Board? Where is that zip code, and does that zip code make sense to you as the top recipient? Write a sentence describing the top result. **Answer**
 
 ```{r}
+cleaned_md_grants_loans <- md_grants_loans |>
+  clean_names() |> 
+  rename(source = grantor) |> 
+  mutate(source = str_to_upper(source), grantee = str_to_upper(grantee), description = str_to_upper(description)) |> 
+  distinct() |>
+  mutate(zip5 = str_sub(zip_code, start=1L, end=5L))|>
+  arrange(desc(amount))
 
 ```
+
+20001 receives the most
