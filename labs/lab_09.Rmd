@@ -1,0 +1,90 @@
+---
+title: "lab_09.Rmd"
+author: "Derek Willis"
+date: "2025-01-15"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## You will need
+
+- A Datawrapper account
+- Data in CSV files in the `data` folder
+
+## Load libraries and establish settings
+
+**Task** Create a codeblock and load appropriate packages and settings for this lab.
+
+```{r}
+# load libraries here
+library(tidyverse)
+library(lubridate)
+library(janitor)
+```
+
+## Questions
+
+**Q1.** You want to explore the differences between the electoral performances of Dan Cox in 2022 and Larry Hogan in 2018. Except a map is probably not the best way to show that. Let's make a chart instead, and the type is up to you, but the goal is to clearly show the differences between the two.
+
+You MUST do the following things when answering this question: \* Load the md_gov_county.csv and md_gov_county_18.csv files from the data folder \* Join those dataframes, specifying the join column. \* Add columns to generate percentages for Cox and Hogan. \* Export that joined dataframe to a CSV file using `write_csv`. \* Using that exported CSV, make a chart with Datawrapper. What kind of chart is up to you, so experiment with a few kinds of charts to see what answers the question above in the clearest way. Your chart MUST: \* Have a title, description and source that tells readers about the data. The title and description should highlight the most newsworthy or important aspect. \* Easily readable labels and values \* Publish your chart \* Describe your thought process below - why you chose to make the chart you did - and add the URL of your chart.
+
+**A1. The most newsworthy aspect that I saw was Cox declining in *every* county in Maryland from Hogan's 2018. While bar/column charts displayed this accurately, I went with the arrow chart because I liked how it visually displayed the shift.**
+
+<https://datawrapper.dwcdn.net/uRFpU/1/>
+
+```{r}
+md_gov_county <- read.csv("data/md_gov_county.csv")
+md_gov_county18 <- read.csv("data/md_gov_county_18.csv")
+
+#md_voters <- left_join(md_gov_county, join_by(County))
+#I stumbled in trying to join the data, so for the sake of the assignment I used Excel to calculate the values.
+
+Cox_Hogan_Results <- read.csv("data/Cox_Hogan_Results.csv")
+```
+
+**Q2.** You're interested in seeing how the methods of voting have changed in Maryland since 2018. Using the `md_votes_by_type.csv` that has data from the top of the ticket (governor in 2018 and 2022, president in 2020), make a chart showing the percentage of votes cast in each category - early voting, election day and mail - over the three years. You'll need to make those percentages in R and then export the CSV using `write_csv`, then make the chart in Datawrapper. Have a title, description and source that tells readers about the data. The title and description should highlight the most newsworthy or important aspect.
+
+HINT: In Datawrapper's "Check and Describe" tab, you can click on a column to get the option of "hiding" it in any visualization.
+
+What do you think the story here is? Put the answer below along with the URL of your chart.
+
+<https://app.datawrapper.de/hlmygzaxfn/edit/ejASv/publish>
+
+**A2. To me, the story here is how mail-in ballots went from a niche method in 2018 to a relatively popular one in 2022, even after many COVID restrictions had been lifted.**
+
+```{r}
+md_vote_type <- read.csv("data/md_votes_by_type.csv")
+
+md_voters <- md_vote_type|>
+  mutate(percent_Early = Early/Total * 100)|>
+  mutate(percent_EDay = Election.Day/Total * 100)|>
+  mutate(percent_Mail = Mail/Total * 100)
+
+write.csv(md_voters, "data/md_voters.csv")
+```
+
+**Q3.** You want to know more about the geography of 911 overdose calls in Montgomery County, Maryland, in 2022. To do that, you'll make a choropleth map in Datawrapper. You will need to:
+
+- Read the file into R and create columns for the number of calls in each zip code and the percentage of all calls that number represents and then export that CSV to use in your map.
+- Search for Maryland zip codes (use the 2020 zip codes) as the base map.
+- Upload the CSV file.
+- Change the tooltip to show both the number and the percentage (you can put them side by side or put one under the other). Make sure to properly format both numbers to make them readable.
+- Add labels to your map that locate prominent places in the county.
+- Have a title, description and source that tells readers about the data. The title and description should highlight the most newsworthy or important aspect.
+- Make any other changes to data that helps you make a more accurate map.
+
+What do you think the story here is, and what would you want to know more about? Put the answer below along with the URL of your map.
+
+**A3.**
+
+```{r}
+MoCo_OD <- read.csv("data/montgomery_2022_overdoses.csv")
+
+MoCo_OD|>
+  summarise(n(zip))|>
+  mutate(pct_zip = zip / 659 * 100)
+#What I'm trying to do here is figure out: 1) How many different zip codes are in this data set, 2) How many occurences of each zip code there are, and 3) what percentage each zip code makes for the total calls in the dataset, 659. I believe the summarize and mutate functions are how to go about doing this, just haven't been able to figure out the syntax for it.
+```
